@@ -3,7 +3,8 @@ import { GoogleGenAI } from "@google/genai";
 import { PRODUCTS } from "../constants";
 
 export const getShoppingAdvice = async (userPrompt: string) => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || "" });
+  // Use process.env.API_KEY directly as per guidelines
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   const productContext = PRODUCTS.map(p => `- ${p.name}: ${p.description} ($${p.price})`).join('\n');
 
@@ -31,6 +32,7 @@ export const getShoppingAdvice = async (userPrompt: string) => {
       },
     });
 
+    // Directly access the .text property of GenerateContentResponse
     return response.text || "I'm sorry, I couldn't process that request right now.";
   } catch (error) {
     console.error("Gemini API Error:", error);

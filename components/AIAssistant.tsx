@@ -4,8 +4,13 @@ import { MessageSquare, X, Send, Sparkles, Loader2 } from 'lucide-react';
 import { ChatMessage } from '../types';
 import { getShoppingAdvice } from '../services/geminiService';
 
-const AIAssistant: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface AIAssistantProps {
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}
+
+const AIAssistant: React.FC<AIAssistantProps> = ({ isOpen, onOpen, onClose }) => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([
     { role: 'assistant', content: "Hello! I'm Lumina, your personal shopping concierge. How can I help you find the perfect item today?" }
@@ -39,7 +44,7 @@ const AIAssistant: React.FC = () => {
     <>
       {/* Floating Button */}
       <button
-        onClick={() => setIsOpen(true)}
+        onClick={onOpen}
         className="fixed bottom-6 right-6 z-40 w-16 h-16 bg-gradient-to-tr from-indigo-600 to-violet-600 rounded-full shadow-2xl flex items-center justify-center text-white hover:scale-110 transition-transform group"
       >
         <MessageSquare className="w-7 h-7" />
@@ -63,7 +68,7 @@ const AIAssistant: React.FC = () => {
               </div>
             </div>
             <button 
-              onClick={() => setIsOpen(false)}
+              onClick={onClose}
               className="p-1 hover:bg-white/20 rounded-full transition-colors"
             >
               <X className="w-6 h-6" />
@@ -119,7 +124,7 @@ const AIAssistant: React.FC = () => {
               </button>
             </form>
             <p className="text-[10px] text-gray-400 text-center mt-2">
-              Lumina is an AI assistant. Please verify important product details.
+              Lumina is an AI assistant powered by Gemini.
             </p>
           </div>
         </div>
